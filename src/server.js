@@ -1,8 +1,10 @@
 import http from 'node:http';
 
-import { json } from '../middlewares/json.js';
+import { Database } from './database/index.js';
 
-const users = [];
+import { json } from './middlewares/json.js';
+
+const database = new Database();
 
 //Cabeçalho (Requisição/resposta) => Metadados 
 
@@ -11,17 +13,20 @@ const server = http.createServer(async (request, response) => {
   await json(request, response);
 
   if(request.method === 'GET' && request.url === '/users') {
+    const users = database.select('users')
+
     return response.end(JSON.stringify(users));
   }
 
   if(request.method === 'POST' && request.url === '/users') {
     const { name, email } = request.body;
 
-    users.push({
-      userId: 1,
+    const user = {
       name,
       email
-    });
+    }
+    
+    database.insert('users', user);
 
     return response.end('Usuários cadastrados com sucesso');
   }
