@@ -1,22 +1,26 @@
 import http from 'node:http';
 
+import { json } from '../middlewares/json.js';
+
 const users = [];
 
 //Cabeçalho (Requisição/resposta) => Metadados 
 
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (request, response) => {
+       
+  await json(request, response);
 
   if(request.method === 'GET' && request.url === '/users') {
-    return response
-      .setHeader('Content-Type', 'application/json')
-      .end(JSON.stringify(users));
+    return response.end(JSON.stringify(users));
   }
 
   if(request.method === 'POST' && request.url === '/users') {
+    const { name, email } = request.body;
+
     users.push({
       userId: 1,
-      username: 'Eduardo Soares',
-      year: '2017'
+      name,
+      email
     });
 
     return response.end('Usuários cadastrados com sucesso');
