@@ -1,36 +1,19 @@
 import http from 'node:http';
-import { randomUUID } from 'node:crypto';
-
-import { Database } from './database/index.js';
 
 import { json } from './middlewares/json.js';
-
-const database = new Database();
+import { routes } from './routes.js';
 
 //Cabeçalho (Requisição/resposta) => Metadados 
 
 const server = http.createServer(async (request, response) => {
+  const { method, url } = request;
        
   await json(request, response);
 
-  if(request.method === 'GET' && request.url === '/users') {
-    const users = database.select('users')
+  const route = routes.find((route) => route.method === method && route.path === url);
 
-    return response.end(JSON.stringify(users));
-  }
-
-  if(request.method === 'POST' && request.url === '/users') {
-    const { name, email } = request.body;
-
-    const user = {
-      id: randomUUID(),
-      name,
-      email
-    }
-    
-    database.insert('users', user);
-
-    return response.end('Usuários cadastrados com sucesso');
+  if(route) {
+    return route.handler(request, response);
   }
 
   return response.end('Url not allowed')
