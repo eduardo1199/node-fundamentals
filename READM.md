@@ -18,5 +18,18 @@
 
 * Middlewares
 
- -
+ - interceptador que acontece entre a requisição de solicitação e a resposta
 
+* Query Parameters:
+
+- https://localhost:3000/users?userId=1 => userId = 1
+- URL Stateful (filtros, paginação, não-obrigatórios)
+
+* Route Parameters:
+
+- https://localhost:3000/user/1
+- Identificação de recurso
+
+* Request Body
+
+- Envio de informações de um formulário

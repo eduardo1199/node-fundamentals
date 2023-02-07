@@ -5,6 +5,7 @@ import { routes } from './routes.js';
 
 //Cabeçalho (Requisição/resposta) => Metadados 
 
+
 const server = http.createServer(async (request, response) => {
   const { method, url } = request;
        

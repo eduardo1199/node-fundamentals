@@ -30,5 +30,22 @@ export const routes = [
 
       return res.end('Usuários cadastrados com sucesso');
     }
+  },
+  {
+    method: 'DELETE',
+    path: '/users',
+    handler: (req, res) => {
+      const { name, email } = req.body;
+
+      const user = {
+        id: randomUUID(),
+        name,
+        email
+      }
+    
+      database.insert('users', user);
+
+      return res.end('Usuários cadastrados com sucesso');
+    }
   }
 ]
