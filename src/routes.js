@@ -36,17 +36,7 @@ export const routes = [
     method: 'DELETE',
     path: buildRoutePath('/users/:id'),
     handler: (req, res) => {
-      const { name, email } = req.body;
-
-      const user = {
-        id: randomUUID(),
-        name,
-        email
-      }
-    
-      database.insert('users', user);
-
-      return res.end('Usuários cadastrados com sucesso');
+      return res.end();
     }
   }
 ]
